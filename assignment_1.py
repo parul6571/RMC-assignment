@@ -15,7 +15,7 @@ no_of_Cs=dna_seq2.count("C")
 gc_percentage=100*(no_of_Gs + no_of_Cs) /len(dna_seq2)
 print("The GC percentage of the sequence is= ", gc_percentage )
 
-# Write a program to mutate a sequence taken from user. Accept sequence as a input from the user. 
+# 3. Write a program to mutate a sequence taken from user. Accept sequence as a input from the user. 
 # Take position and mutated base as argument.
 #Answer
 dna_seq3=input("please enter the DNA sequence: ")
