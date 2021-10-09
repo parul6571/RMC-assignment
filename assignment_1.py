@@ -2,7 +2,6 @@
 #  1. Write a program to calculate the length of DNA Sequence in python. Take the sequence from user.
 #  Answer
 
-
 dna_seq1=input("Please enter the DNA sequence: ")
 print("The length of DNA sequence is=",len(dna_seq1))
 
@@ -25,12 +24,18 @@ dna_seq3_mutated.insert(3, "GCGGCG")
 print("The mutated DNA sequence is ", dna_seq3_mutated)# this is adition in the list not inbetween the sequences.
 
 dna_seqM=input("please enter the DNA sequence: ")
-Position_of_mutation=int(input("Please enter the position of Mutation: ")
+Position_of_mutation=int(input("Please enter the position of Mutation: "))
 Mutated_character=input("Please enter the Mutated character: ")
 Mutated_sequence=dna_seqM[:Position_of_mutation-1]+Mutated_character+dna_seqM[Position_of_mutation:] 
+print(Mutated_sequence)
 
-# dna_seq="ATTCCGTGTGGTGTG"
-# dna_seq4_mutated=dna_seq [:4]+"GGTTCGT"+[5:] # need to ask about string mutation, It is not happening
+# Addition sequence in list data set.
+data_list=input("Please enter the DNA Sequence: ") 
+convert_list=list(data_list)
+data_list[3]="AAAAAAA"
+print(convert_list)
+new_list="".join(convert_list)
+print(new_list)
 
 # 4. Write a program to slice the sequence in two halves. Print the result. Take the sequence from the user. 
 #answer 
