@@ -22,7 +22,12 @@ dna_seq3=input("please enter the DNA sequence: ")
 dna_seq3=[dna_seq3]
 dna_seq3_mutated=dna_seq3.copy()
 dna_seq3_mutated.insert(3, "GCGGCG")
-print("The mutated DNA sequence is ", dna_seq3_mutated)
+print("The mutated DNA sequence is ", dna_seq3_mutated)# this is adition in the list not inbetween the sequences.
+
+dna_seqM=input("please enter the DNA sequence: ")
+Position_of_mutation=int(input("Please enter the position of Mutation: ")
+Mutated_character=input("Please enter the Mutated character: ")
+Mutated_sequence=dna_seqM[:Position_of_mutation-1]+Mutated_character+dna_seqM[Position_of_mutation:] 
 
 # dna_seq="ATTCCGTGTGGTGTG"
 # dna_seq4_mutated=dna_seq [:4]+"GGTTCGT"+[5:] # need to ask about string mutation, It is not happening
