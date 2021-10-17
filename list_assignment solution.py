@@ -48,14 +48,12 @@ for stop_codon in list2:
 
 # Q4. Write a program to transcribe the sequence "ATGCTCGCGTAA"
 #Answer
-# DNA sequence is "ATGCTCGCGTAA" and transcription is this sequence into mRNA will give rise "UACGAGCGCAUU"
+# DNA sequence is "ATGCTCGCGTAA" and transcription is this sequence into mRNA. haivng U instead of T.
 list3=["ATGCTCGCGTAA"]
 list3=str(list3)
-list_a=list3.replace("A","U")
-list_b=list_a.replace("T","A")
-list_c=list_b.replace("G","C")
-list_d=list_b.replace("C","G")
-print(list_d)# need to ask how to convert this sequence. result should be "UACGAGCGCAUU" but geting UAGGAGGGGAUU.
+list_a=list3.replace("T","U")
+
+print("The transcribe sequence of this sequence is",list_a)
 
 
 # Q5. Concatenate two lists of GC Values [30.5,12,54,23,84] and [12,45,54,32] 
