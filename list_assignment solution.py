@@ -53,7 +53,7 @@ list3=["ATGCTCGCGTAA"]
 list3=str(list3)
 list_a=list3.replace("T","U")
 
-print("The transcribe sequence of this sequence is",list_a)
+print("The transcribe sequence of 'ATGCTCGCGTAA' sequence is",list_a)
 
 
 # Q5. Concatenate two lists of GC Values [30.5,12,54,23,84] and [12,45,54,32] 
