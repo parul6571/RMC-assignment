@@ -73,6 +73,87 @@ wuhan_gene_translation.close()
 
 # Create the plasmid
 
+record = SeqIO.read(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1\wuhan_variant.gb", "genbank")
+
+gd_diagram = GenomeDiagram.Diagram(record.id)
+gd_track_for_features = gd_diagram.new_track(1, name="Annotated Features")
+gd_feature_set = gd_track_for_features.new_set()
+
+for feature in record.features:
+    if feature.type=="mat_peptide":
+        if len(gd_feature_set) % 2 == 0:
+            color = colors.blueviolet
+        else:
+            color = colors.orangered
+        gd_feature_set.add_feature(
+            feature, sigil="ARROW", color=color, label=True, label_size=20, label_angle=25
+        )
+
+
+import os
+os.chdir(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1")
+
+gd_diagram.draw(format="linear", pagesize="A4", fragments=4, start=0, end=len(record))
+gd_diagram.write("wuhan_plasmid.pdf", "PDF")
+
+
 # plot the restriction map sites on plasmid
+restriction_record = SeqIO.read(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1\wuhan_variant.gb", "genbank")
+
+gd_diagram = GenomeDiagram.Diagram(restriction_record.id)
+gd_track_for_features = gd_diagram.new_track(1, name="Annotated Features")
+gd_feature_set = gd_track_for_features.new_set()
+
+
+
+restriction_map_data=[
+    ("GAATTC", "EcoRI", colors.green),
+    ("CCCGGG", "SmaI", colors.orange),
+    ("AAGCTT", "HindIII", colors.red),
+    ("GGATCC", "BamHI", colors.purple),
+]
+for feature in restriction_record.features:
+    if feature.type=="mat_peptide":
+        if len(gd_feature_set) % 2 == 0:
+            color = colors.blue
+        else:
+            color = colors.yellow
+        gd_feature_set.add_feature(
+            feature, sigil="ARROW", color=color, label=True, label_size=20, label_angle=10
+        )
+    for site, name, color in restriction_map_data:
+      index = 0
+      while True:
+        index = restriction_record.seq.find(site, start=index)
+        if index == -1:
+            break
+        feature = SeqFeature(FeatureLocation(index, index + len(site)))
+        gd_feature_set.add_feature(
+            feature,
+            color=color,
+            name=name+" "+str(index),
+            label=True,
+            label_size=15,
+            label_color=color,
+            label_position=index
+        )
+        index += len(site)
+
+
+
+import os
+os.chdir(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1")
+
+gd_diagram.draw(
+    format="circular",
+    circular=True,
+    pagesize=(40 * cm, 40 * cm),
+    start=0,
+    end=len(record),
+    circle_core=0.5,
+)
+gd_diagram.write("wuhan_restriction_gd_circular.pdf", "PDF")
+
+
 # Plot all the CDS regions on plasmid
 # Mark the CDS regions having GC value>50 
