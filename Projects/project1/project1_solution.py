@@ -7,6 +7,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import cm
 from Bio.Graphics import GenomeDiagram
 from Bio.SeqFeature import SeqFeature, FeatureLocation
+from Bio.SeqUtils import GC
 
 Entrez.email = "parul.bhatt@mirandahouse.ac.in"
 handle = Entrez.efetch(db="nucleotide", id="NC_045512", rettype="gb", retmode="text")
@@ -46,7 +47,7 @@ for gene_features in wuhan_record.features:
         print(gene_features.extract(wuhan_record).seq)
         print(len(gene_features.extract(wuhan_record.seq)))
         wuhan_cds.writelines("\n"+str(gene_features.type)+"\n" )
-        wuhan_cds.writelines((str(gene_features.extract(wuhan_record.seq))+"\n"))
+        wuhan_cds.writelines("\n"+(str(gene_features.extract(wuhan_record.seq))+"\n"))
         wuhan_cds.writelines(str(len(str(gene_features.extract(wuhan_record.seq))+ "\n")))
 wuhan_cds.close()
 
@@ -113,11 +114,11 @@ restriction_map_data=[
     ("GGATCC", "BamHI", colors.purple),
 ]
 for feature in restriction_record.features:
-    if feature.type=="mat_peptide":
+    if feature.type=="CDS":
         if len(gd_feature_set) % 2 == 0:
             color = colors.blue
         else:
-            color = colors.yellow
+            color = colors.pink
         gd_feature_set.add_feature(
             feature, sigil="ARROW", color=color, label=True, label_size=20, label_angle=10
         )
@@ -156,4 +157,53 @@ gd_diagram.write("wuhan_restriction_gd_circular.pdf", "PDF")
 
 
 # Plot all the CDS regions on plasmid
+
+record = SeqIO.read(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1\wuhan_variant.gb", "genbank")
+
+gd_diagram = GenomeDiagram.Diagram(record.id)
+gd_track_for_features = gd_diagram.new_track(1, name="Annotated Features")
+gd_feature_set = gd_track_for_features.new_set()
+
+for feature in record.features:
+    if feature.type=="CDS":
+        if len(gd_feature_set) % 2 == 0:
+            color = colors.red
+        else:
+            color = colors.greenyellow
+        gd_feature_set.add_feature(
+            feature, sigil="ARROW", color=color, label=True, label_size=20, label_angle=25
+        )
+
+
+import os
+os.chdir(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1")
+
+gd_diagram.draw(format="linear", pagesize="A4", fragments=5, start=0, end=len(record))
+gd_diagram.write("wuhan_CDS_plasmid.pdf", "PDF")
+
 # Mark the CDS regions having GC value>50 
+record = SeqIO.read(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1\wuhan_variant.gb", "genbank")
+
+gd_diagram = GenomeDiagram.Diagram(record.id)
+gd_track_for_features = gd_diagram.new_track(1, name="Annotated Features")
+gd_feature_set = gd_track_for_features.new_set()
+GC_seq=GC(str(gene_features.extract(record.seq)))>50
+
+for feature in record.features:
+    if feature.type=="CDS" and GC_seq:
+        if len(gd_feature_set) % 2 == 0:
+            color = colors.red
+        else:
+            color = colors.blue
+              
+        gd_feature_set.add_feature(
+            feature, sigil="ARROW", color=color, label=True, label_size=20, label_angle=25
+        )
+
+
+import os
+os.chdir(r"D:\Python for bioinformatics\python\RMC-assignment\Projects\project1")
+
+gd_diagram.draw(format="linear", pagesize="A4", fragments=4, start=0, end=len(record))
+gd_diagram.write("wuhan_CDS_plasmid_50_GC.pdf", "PDF")
+
